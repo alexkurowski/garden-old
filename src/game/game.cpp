@@ -1,20 +1,18 @@
 namespace game
 {
 
-Context *ctx;
-
-void init()
+static void init()
 {
     ctx = new Context;
 }
 
-Context *update(Input &input)
+static Context *update(Input &input)
 {
     // cout << input.mouseX << endl;
     return ctx;
 }
 
-void quit()
+static void quit()
 {
     delete ctx;
 }

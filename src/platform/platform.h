@@ -13,4 +13,3 @@ namespace platform
 {
 PlatformContext *pctx;
 }
-

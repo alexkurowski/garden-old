@@ -1,7 +1,7 @@
 namespace platform
 {
 
-Input &input()
+static Input &input()
 {
     Input &input = pctx->input;
     input.mouseX = GetMouseX();

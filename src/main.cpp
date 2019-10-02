@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include "content/components.cpp"
+#include "content/entities.cpp"
 #include "game/game.cpp"
 #include "platform/input.cpp"
 #include "platform/presentation.cpp"

@@ -1,7 +1,7 @@
 namespace platform
 {
 
-void init()
+static void init()
 {
     pctx = new PlatformContext;
 
@@ -12,19 +12,19 @@ void init()
     SetTargetFPS(60);
 }
 
-void quit()
+static void quit()
 {
     CloseWindow();
 
     delete pctx;
 }
 
-Context *update(Input &input)
+static Context *update(Input &input)
 {
     return game::update(input);
 }
 
-void mainLoop()
+static void mainLoop()
 {
     while (!WindowShouldClose()) {
         draw(update(input()));

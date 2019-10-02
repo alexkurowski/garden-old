@@ -5,5 +5,7 @@
 
 #include "define.h"
 
-#include "game/context.h"
+#include "content/components.h"
+#include "content/entities.h"
+#include "game/game.h"
 #include "platform/platform.h"

@@ -1,10 +1,8 @@
 namespace platform
 {
 
-void draw(Context *ctx)
+static void draw(Context *ctx)
 {
-    cout << pctx->input.mouseX << endl;
-
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
