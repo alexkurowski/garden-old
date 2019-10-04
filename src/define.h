@@ -10,4 +10,4 @@ using cstring = const char *;
 using EntityId = unsigned int;
 using ComponentMask = unsigned long long int;
 
-constexpr EntityId ENTITY_POOL = 256;
+constexpr EntityId ENTITY_POOL = 5;

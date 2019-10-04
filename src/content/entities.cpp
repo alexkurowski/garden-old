@@ -1,7 +1,7 @@
 namespace entity
 {
 
-static Entity *create()
+static Entity *create(Context *ctx)
 {
     EntityId id = ctx->entityPool.nextId;
 
@@ -16,49 +16,49 @@ static Entity *create()
     return e;
 }
 
-static Entity *get(EntityId id)
+static Entity *get(Context *ctx, EntityId id)
 {
     return &ctx->entityPool.pool[id];
 }
 
-static void destroy(EntityId id)
+static void destroy(Context *ctx, EntityId id)
 {
     ctx->entityPool.pool[id].components = 0;
 }
 
-static void destroy(Entity *e)
+static void destroy(Context *ctx, Entity *e)
 {
     e->components = 0;
 }
 
-static void add(EntityId id, ComponentMask components)
+static void add(Context *ctx, EntityId id, ComponentMask components)
 {
     Entity *e = &ctx->entityPool.pool[id];
     e->components |= components;
 }
 
-static void add(Entity *e, ComponentMask components)
+static void add(Context *ctx, Entity *e, ComponentMask components)
 {
     e->components |= components;
 }
 
-static bool has(EntityId id, ComponentMask components)
+static bool has(Context *ctx, EntityId id, ComponentMask components)
 {
     return (ctx->entityPool.pool[id].components & components) == components;
 }
 
-static bool has(Entity *e, ComponentMask components)
+static bool has(Context *ctx, Entity *e, ComponentMask components)
 {
     return (e->components & components) == components;
 }
 
-static void remove(EntityId id, ComponentMask components)
+static void remove(Context *ctx, EntityId id, ComponentMask components)
 {
     Entity *e = &ctx->entityPool.pool[id];
     e->components -= e->components & components;
 }
 
-static void remove(Entity *e, ComponentMask components)
+static void remove(Context *ctx, Entity *e, ComponentMask components)
 {
     e->components -= e->components & components;
 }

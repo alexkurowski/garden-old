@@ -8,8 +8,11 @@ static void init()
     pctx->windowWidth = 800;
     pctx->windowHeight = 600;
 
-    InitWindow(pctx->windowWidth, pctx->windowHeight, "Garden");
+    setupCamera();
+
+    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     SetTargetFPS(60);
+    InitWindow(pctx->windowWidth, pctx->windowHeight, "Garden");
 }
 
 static void quit()

@@ -2,7 +2,10 @@
 
 #include "content/components.cpp"
 #include "content/entities.cpp"
+#include "systems/cards.cpp"
+#include "systems/global.cpp"
 #include "game/game.cpp"
+#include "platform/camera.cpp"
 #include "platform/input.cpp"
 #include "platform/presentation.cpp"
 #include "platform/platform.cpp"
