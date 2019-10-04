@@ -3,57 +3,38 @@ namespace platform
 
 static void setupPresentation()
 {
-    pctx->cardTexture = LoadTexture("assets/card.png");
+    Image image = LoadImage("assets/card_with_text.png");
+    ImageFlipVertical(&image);
+    pctx->cardTexture = LoadTextureFromImage(image);
+    UnloadImage(image);
 }
 
 static void drawDebug(Context *ctx)
 {
+    DrawFPS(10, 10);
+
     DrawText(
         TextFormat(
             "%d %d", pctx->input.mouse.screenX, pctx->input.mouse.screenY),
         10,
-        40,
+        30,
         20,
-        BLACK);
+        WHITE);
 
-    DrawText(TextFormat("%d", pctx->input.mouse.wheel), 10, 60, 20, BLACK);
-
-    DrawRectangleLines(10, 100, 60, 10, BLACK);
-
-    if (pctx->input.mouse.left == MouseButtonState::Pressed) {
-        DrawRectangle(10, 100, 10, 10, MAROON);
-    }
-    if (pctx->input.mouse.left == MouseButtonState::Released) {
-        DrawRectangle(20, 100, 10, 10, MAROON);
-    }
-    if (pctx->input.mouse.left == MouseButtonState::Down) {
-        DrawRectangle(30, 100, 10, 10, MAROON);
-    }
-
-    if (pctx->input.mouse.right == MouseButtonState::Pressed) {
-        DrawRectangle(40, 100, 10, 10, PURPLE);
-    }
-    if (pctx->input.mouse.right == MouseButtonState::Released) {
-        DrawRectangle(50, 100, 10, 10, PURPLE);
-    }
-    if (pctx->input.mouse.right == MouseButtonState::Down) {
-        DrawRectangle(60, 100, 10, 10, PURPLE);
-    }
+    DrawText(TextFormat("%d", pctx->input.mouse.wheel), 10, 50, 20, WHITE);
 
     DrawText(
         TextFormat("%d, %d", pctx->input.mouse.gridX, pctx->input.mouse.gridY),
         10,
-        200,
+        70,
         20,
-        BLACK);
-
-    DrawFPS(10, 10);
+        WHITE);
 }
 
 static void drawDebug3d()
 {
     Vector3 pos = {pctx->input.mouse.tableX, 0, pctx->input.mouse.tableZ};
-    DrawSphere(pos, 0.2f, MAROON);
+    DrawSphere(pos, 0.03f, MAROON);
 }
 
 static void drawEntities(Context *ctx)
@@ -71,9 +52,9 @@ static void drawEntities(Context *ctx)
             pos.y = position.y + tableHeight;
             pos.z = position.z * cardMarginHeight;
 
-            Color color = DARKBLUE;
+            Color color = WHITE;
             if (entity.id == ctx->highlightedEntity) {
-                color = BLUE;
+                color = GRAY;
             }
 
             DrawCubeTexture(
@@ -90,7 +71,7 @@ static void drawEntities(Context *ctx)
             pos.y = position.y + tableHeight;
             pos.z = position.z * cardMarginHeight;
 
-            Color color = DARKBLUE;
+            Color color = WHITE;
             if (ctx->highlightedEntity != -1) {
                 color.a = 128;
             }
@@ -104,7 +85,7 @@ static void drawEntities(Context *ctx)
 static void draw(Context *ctx)
 {
     BeginDrawing();
-    ClearBackground(RAYWHITE);
+    ClearBackground({10, 15, 20, 255});
 
     BeginMode3D(pctx->camera.camera);
 

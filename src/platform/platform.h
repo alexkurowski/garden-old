@@ -1,6 +1,6 @@
 constexpr float cardMargin = 0.1f;
 constexpr float cardWidth = 0.9f;
-constexpr float cardHeight = 1.5f;
+constexpr float cardHeight = 1.245f;
 constexpr float cardMarginWidth = cardWidth + cardMargin;
 constexpr float cardMarginHeight = cardHeight + cardMargin;
 constexpr float tableHeight = 0.01f;

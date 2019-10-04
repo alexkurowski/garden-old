@@ -85,7 +85,8 @@ static void dragndrop(Context *ctx, Input &input)
     if (ctx->selectedEntity != -1) {
         Card *card = component::card(ctx, ctx->selectedEntity);
 
-        if (input.mouse.left == MouseButtonState::Released) {
+        if (input.mouse.left == MouseButtonState::Released ||
+            input.mouse.left == MouseButtonState::Up) {
             dragndropRelease(ctx, input, card);
         } else {
             dragndropMove(ctx, input, card);
