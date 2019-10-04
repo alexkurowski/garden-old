@@ -43,6 +43,7 @@ struct PlatformContext {
     int windowHeight;
     GameCamera camera;
     Input input;
+    Texture2D cardTexture;
 };
 
 namespace platform

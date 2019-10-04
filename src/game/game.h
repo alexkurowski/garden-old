@@ -3,6 +3,7 @@ struct Context {
     EntityPool entityPool;
     EntityId playerEntity = -1;
     EntityId selectedEntity = -1;
+    EntityId highlightedEntity = -1;
 };
 
 namespace game

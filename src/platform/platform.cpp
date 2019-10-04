@@ -13,10 +13,13 @@ static void init()
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     SetTargetFPS(60);
     InitWindow(pctx->windowWidth, pctx->windowHeight, "Garden");
+
+    setupPresentation();
 }
 
 static void quit()
 {
+    UnloadTexture(pctx->cardTexture);
     CloseWindow();
 
     delete pctx;

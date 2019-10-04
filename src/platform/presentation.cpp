@@ -1,6 +1,11 @@
 namespace platform
 {
 
+static void setupPresentation()
+{
+    pctx->cardTexture = LoadTexture("assets/card.png");
+}
+
 static void drawDebug(Context *ctx)
 {
     DrawText(
@@ -56,12 +61,42 @@ static void drawEntities(Context *ctx)
     Vector3 pos;
 
     for (Entity entity : ctx->entityPool.pool) {
+        if (entity.id == ctx->selectedEntity) {
+            continue;
+        }
+
         if (entity::has(ctx, &entity, CardComponent | KnownComponent)) {
             Vector3 &position = component::card(ctx, &entity)->position;
             pos.x = position.x * cardMarginWidth;
             pos.y = position.y + tableHeight;
             pos.z = position.z * cardMarginHeight;
-            DrawCube(pos, cardWidth, 0, cardHeight, DARKBLUE);
+
+            Color color = DARKBLUE;
+            if (entity.id == ctx->highlightedEntity) {
+                color = BLUE;
+            }
+
+            DrawCubeTexture(
+                pctx->cardTexture, pos, cardWidth, 0, cardHeight, color);
+        }
+    }
+
+    if (ctx->selectedEntity != -1) {
+        if (entity::has(
+                ctx, ctx->selectedEntity, CardComponent | KnownComponent)) {
+            Vector3 &position =
+                component::card(ctx, ctx->selectedEntity)->position;
+            pos.x = position.x * cardMarginWidth;
+            pos.y = position.y + tableHeight;
+            pos.z = position.z * cardMarginHeight;
+
+            Color color = DARKBLUE;
+            if (ctx->highlightedEntity != -1) {
+                color.a = 128;
+            }
+
+            DrawCubeTexture(
+                pctx->cardTexture, pos, cardWidth, 0, cardHeight, color);
         }
     }
 }

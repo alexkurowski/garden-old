@@ -54,10 +54,19 @@ static void dragndropRelease(Context *ctx, Input &input, Card *card)
     card->target.z = card->y;
 
     ctx->selectedEntity = -1;
+    ctx->highlightedEntity = -1;
 }
 
 static void dragndropMove(Context *ctx, Input &input, Card *card)
 {
+    EntityId anotherEntity =
+        findEntityAt(ctx, input.mouse.gridX, input.mouse.gridY);
+    if (anotherEntity != ctx->selectedEntity) {
+        ctx->highlightedEntity = anotherEntity;
+    } else {
+        ctx->highlightedEntity = -1;
+    }
+
     card->target.x = input.mouse.tableScaledX;
     card->target.y = pickedCardHeight;
     card->target.z = input.mouse.tableScaledZ;
