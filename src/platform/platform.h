@@ -32,8 +32,9 @@ struct Input {
 };
 
 struct GameCamera {
+    float distance;
+    float distanceTarget;
     Vector3 target;
-    Vector3 offset;
     Camera3D camera;
 };
 

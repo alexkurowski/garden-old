@@ -1,6 +1,6 @@
 struct Card {
     int x;            // Coordinates on the table
-    int y;            // Coordinates on the table
+    int y;
     Vector3 position; // Mesh rendered position
     Vector3 target;   // Mesh movement target
 };

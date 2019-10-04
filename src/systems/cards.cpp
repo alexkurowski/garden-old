@@ -3,16 +3,57 @@ namespace systems
 
 constexpr float pickedCardHeight = 1.f;
 
+static EntityId findEntityAt(Context *ctx, int x, int y)
+{
+    for (Entity e : ctx->entityPool.pool) {
+        if (entity::has(ctx, &e, CardComponent | KnownComponent)) {
+            Card *card = component::card(ctx, &e);
+            if (card->x == x && card->y == y) {
+                return e.id;
+            }
+        }
+    }
+    return -1;
+}
+
+static Card *findCardAt(Context *ctx, int x, int y, Card *excluded = nullptr)
+{
+    for (Entity e : ctx->entityPool.pool) {
+        if (entity::has(ctx, &e, CardComponent | KnownComponent)) {
+            Card *card = component::card(ctx, &e);
+            if (card != excluded && card->x == x && card->y == y) {
+                return card;
+            }
+        }
+    }
+    return nullptr;
+}
+
 static void dragndropRelease(Context *ctx, Input &input, Card *card)
 {
-    ctx->selectedEntity = -1;
-    card->x = input.mouse.gridX;
-    card->y = input.mouse.gridY;
+    bool canPlace = true;
+
+    // TODO: Find a card underneath and move it out (should be
+    // done recursively)
+    // If the card below is an action card, show the action dialog modal
+
+    Card *anotherCard =
+        findCardAt(ctx, input.mouse.gridX, input.mouse.gridY, card);
+    if (anotherCard) {
+        cout << "another card here" << endl;
+        canPlace = false;
+    }
+
+    if (canPlace) {
+        card->x = input.mouse.gridX;
+        card->y = input.mouse.gridY;
+    }
+
     card->target.x = card->x;
     card->target.y = 0;
     card->target.z = card->y;
-    // TODO: Find a card underneath and move it out (should be
-    // done recursively)
+
+    ctx->selectedEntity = -1;
 }
 
 static void dragndropMove(Context *ctx, Input &input, Card *card)
@@ -24,14 +65,9 @@ static void dragndropMove(Context *ctx, Input &input, Card *card)
 
 static void dragndropPick(Context *ctx, Input &input)
 {
-    for (Entity e : ctx->entityPool.pool) {
-        if (entity::has(ctx, &e, CardComponent | KnownComponent)) {
-            Card *card = component::card(ctx, &e);
-            if (card->x == input.mouse.gridX && card->y == input.mouse.gridY) {
-                ctx->selectedEntity = e.id;
-                return;
-            }
-        }
+    EntityId id = findEntityAt(ctx, input.mouse.gridX, input.mouse.gridY);
+    if (id != -1) {
+        ctx->selectedEntity = id;
     }
 }
 
