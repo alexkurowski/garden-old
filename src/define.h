@@ -6,6 +6,8 @@ using std::to_string;
 using std::variant;
 using std::vector;
 
+using json = nlohmann::json;
+
 using cstring = const char *;
 using EntityId = unsigned int;
 using ComponentMask = unsigned long long int;

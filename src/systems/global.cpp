@@ -10,6 +10,10 @@ static void moveImmediately(Card *card)
 
 static void newGame(Context *ctx)
 {
+    json test = json::parse(LoadText("assets/test.json"));
+    string foo = test["cards"][0]["foo"];
+    cout << foo << endl;
+
     {
         Entity *e = entity::create(ctx);
 
