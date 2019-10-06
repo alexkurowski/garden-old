@@ -9,9 +9,7 @@ static void init()
 
 static Context *update(Input &input)
 {
-    systems::dragndrop(ctx, input);
     for (Entity entity : ctx->entityPool.pool) {
-        systems::move(ctx, &entity);
     }
     return ctx;
 }

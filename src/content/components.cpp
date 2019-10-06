@@ -11,7 +11,8 @@
 namespace component
 {
 
-COMPONENT_GETTER(Card, card);
+COMPONENT_GETTER(Position, position);
+COMPONENT_GETTER(Tile, tile);
 COMPONENT_GETTER(Actor, actor);
 
 } // namespace component

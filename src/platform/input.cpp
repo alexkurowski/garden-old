@@ -22,22 +22,10 @@ static Input &input()
 
     input.mouse.screenX = GetMouseX();
     input.mouse.screenY = GetMouseY();
-    input.mouse.wheel = GetMouseWheelMove();
+    input.mouse.tileX = input.mouse.screenX / (tileWidth * scale);
+    input.mouse.tileY = input.mouse.screenY / (tileHeight * scale);
     input.mouse.left = getMouseButtonState(0);
     input.mouse.right = getMouseButtonState(1);
-
-    Ray mouseRay = GetMouseRay(GetMousePosition(), pctx->camera.camera);
-    RayHitInfo hitInfo = GetCollisionRayGround(mouseRay, 0);
-    input.mouse.tableX = hitInfo.position.x;
-    input.mouse.tableZ = hitInfo.position.z;
-
-    input.mouse.tableScaledX = input.mouse.tableX / cardMarginWidth;
-    input.mouse.tableScaledZ = input.mouse.tableZ / cardMarginHeight;
-    input.mouse.gridX = floor(input.mouse.tableScaledX + 0.5);
-    input.mouse.gridY = floor(input.mouse.tableScaledZ + 0.5);
-
-    cameraControls();
-    updateCamera();
 
     return input;
 }
