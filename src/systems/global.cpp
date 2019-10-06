@@ -51,6 +51,7 @@ static void newGame(Context *ctx)
 
         entity::add(ctx, e, PositionComponent);
         entity::add(ctx, e, TileComponent);
+        ctx->playerEntity = e->id;
     }
 }
 

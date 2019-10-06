@@ -3,10 +3,16 @@ namespace platform
 
 static void init()
 {
-    pctx = new PlatformContext;
+    pctx = new PlatformContext{0};
+    if (!pctx) {
+        throw runtime_error("Not enough memory");
+    }
 
     pctx->windowWidth = 800;
     pctx->windowHeight = 600;
+    pctx->scale = 2.f;
+    pctx->tilesWidth = pctx->windowWidth / (tileWidth * pctx->scale);
+    pctx->tilesHeight = pctx->windowHeight / (tileHeight * pctx->scale);
 
     SetConfigFlags(FLAG_VSYNC_HINT);
     SetTargetFPS(60);

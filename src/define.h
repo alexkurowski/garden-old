@@ -5,6 +5,7 @@ using std::string;
 using std::to_string;
 using std::variant;
 using std::vector;
+using std::runtime_error;
 
 using json = nlohmann::json;
 

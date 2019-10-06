@@ -1,6 +1,24 @@
 constexpr int tileWidth = 16;
 constexpr int tileHeight = 16;
-constexpr float scale = 2;
+
+enum struct Command {
+    None,
+    GoN,
+    GoS,
+    GoW,
+    GoE,
+    GoNW,
+    GoNE,
+    GoSW,
+    GoSE,
+};
+
+struct Keyboard {
+    bool shift;
+    bool ctrl;
+    bool alt;
+    char keyPressed;
+};
 
 enum struct MouseButtonState {
     Up,
@@ -20,6 +38,8 @@ struct Mouse {
 
 struct Input {
     float dt;
+    Command cmd;
+    Keyboard keyboard;
     Mouse mouse;
 };
 
@@ -28,6 +48,7 @@ struct PlatformContext {
     int windowHeight;
     int tilesWidth;
     int tilesHeight;
+    float scale;
     Input input;
     Texture2D tilesTexture;
 };

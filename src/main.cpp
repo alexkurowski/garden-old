@@ -3,6 +3,7 @@
 #include "content/components.cpp"
 #include "content/entities.cpp"
 #include "systems/global.cpp"
+#include "systems/test.cpp"
 #include "game/game.cpp"
 #include "platform/input.cpp"
 #include "platform/presentation.cpp"

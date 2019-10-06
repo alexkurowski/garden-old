@@ -24,11 +24,14 @@ static void drawDebug(Context *ctx)
         50,
         20,
         RED);
+
+    DrawText(
+        TextFormat("%d", pctx->input.keyboard.keyPressed), 10, 70, 20, GREEN);
 }
 
 static void drawEntities(Context *ctx)
 {
-    Vector2 org;
+    Vector2 orig;
     Rectangle src;
     Rectangle dst;
     Rectangle fill = {8 * tileWidth, 5 * tileHeight, tileWidth, tileHeight};
@@ -43,13 +46,13 @@ static void drawEntities(Context *ctx)
             src.width = tileWidth;
             src.height = tileHeight;
 
-            dst.x = pos->x * tileWidth * scale;
-            dst.y = pos->y * tileHeight * scale;
-            dst.width = tileWidth * scale;
-            dst.height = tileHeight * scale;
+            dst.x = pos->x * tileWidth * pctx->scale;
+            dst.y = pos->y * tileHeight * pctx->scale;
+            dst.width = tileWidth * pctx->scale;
+            dst.height = tileHeight * pctx->scale;
 
-            DrawTexturePro(pctx->tilesTexture, fill, dst, org, 0, BLACK);
-            DrawTexturePro(pctx->tilesTexture, src, dst, org, 0, WHITE);
+            DrawTexturePro(pctx->tilesTexture, fill, dst, orig, 0, BLACK);
+            DrawTexturePro(pctx->tilesTexture, src, dst, orig, 0, WHITE);
         }
     }
 }

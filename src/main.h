@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <variant>
-#include <math.h>
+#include <stdexcept>
+
 #include "raylib.h"
 #include "json.hpp"
 
