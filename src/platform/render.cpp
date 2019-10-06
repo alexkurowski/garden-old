@@ -5,8 +5,8 @@ static void handleResize(int w, int h)
 {
     GPU_SetWindowResolution(w, h);
 
-    int glWidth, glHeight;
-    int sdlWidth, sdlHeight;
+    int glWidth, glHeight;   // Actual pixels
+    int sdlWidth, sdlHeight; // Pixels scaled by OS
     SDL_GL_GetDrawableSize(pctx->window, &glWidth, &glHeight);
     SDL_GetWindowSize(pctx->window, &sdlWidth, &sdlHeight);
 
@@ -80,28 +80,17 @@ static void drawText(string str, int x, int y)
 
 static void drawDebug(Context *ctx)
 {
-    blitText(format("%d %d", pctx->windowWidth, pctx->windowHeight), 0, 0);
-
-    // DrawFPS(10, 10);
-
-    // DrawText(
-    //     TextFormat(
-    //         "%d %d", pctx->input.mouse.screenX, pctx->input.mouse.screenY),
-    //     10,
-    //     30,
-    //     20,
-    //     WHITE);
-
-    // DrawText(
-    //     TextFormat("%d %d", pctx->input.mouse.tileX,
-    //     pctx->input.mouse.tileY), 10, 50, 20, WHITE);
-
-    // DrawText(
-    //     TextFormat("%d %d", pctx->windowWidth, pctx->windowHeight),
-    //     10,
-    //     10,
-    //     20,
-    //     WHITE);
+    blitText(format("%f", pctx->input.dt), 0, 0);
+    blitText(
+        format("%d %d", pctx->input.mouse.screen.x, pctx->input.mouse.screen.y),
+        0,
+        1);
+    blitText(
+        format("%d %d", pctx->input.mouse.tile.x, pctx->input.mouse.tile.y),
+        0,
+        2);
+    blitText(format("%d", pctx->input.keyboard.keyPressed), 0, 3);
+    blitText(format("%d", pctx->input.mouse.btnPressed), 0, 4);
 }
 
 static void drawTiles(Context *ctx, Vector2 orig)

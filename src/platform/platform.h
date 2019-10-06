@@ -19,20 +19,11 @@ struct Keyboard {
     char keyPressed;
 };
 
-enum struct MouseButtonState {
-    Up,
-    Pressed,
-    Down,
-    Released,
-};
-
 struct Mouse {
-    int screenX; // Coordinates on the screen
-    int screenY;
-    int tileX; // Coordinates on the scaled grid
-    int tileY;
-    MouseButtonState left;
-    MouseButtonState right;
+    Point screen; // Coordinates on the screen
+    Point tile;   // Coordinates on the tile grid, affected by camera position
+    Point text;   // Coordinates on the ui text grid
+    int btnPressed;
 };
 
 struct Input {
@@ -50,6 +41,7 @@ struct PlatformContext {
     GPU_Rect *src;
 
     SDL_Event event;
+    Input input;
 
     bool running;
     int windowWidth;
@@ -59,7 +51,9 @@ struct PlatformContext {
     int textWidth;
     int textHeight;
     float scale;
-    Input input;
+
+    unsigned long int lastFrame;
+    unsigned long int currentFrame;
 };
 
 namespace platform

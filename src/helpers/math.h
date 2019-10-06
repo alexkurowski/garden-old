@@ -1,4 +1,4 @@
-struct Vector2i {
+struct Point {
     int x, y;
 };
 
