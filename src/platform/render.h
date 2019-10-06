@@ -32,7 +32,7 @@ constexpr Color backgroundColor = {10, 15, 20, 255};
 
 constexpr int initialWidth = 800;
 constexpr int initialHeight = 600;
-constexpr float initialScale = 2.f;
+constexpr float initialScale = 1.5f;
 constexpr int tileWidth = 16;
 constexpr int tileHeight = 16;
 constexpr int charWidth = 8;
@@ -86,6 +86,32 @@ static void blitTileOffset(
         pctx->scale);
 }
 
+static void
+blitRect(int dstX, int dstY, int width, int height, Color color = WHITE)
+{
+    float x1 = dstX * width * pctx->scale;
+    float y1 = dstY * height * pctx->scale;
+    float x2 = x1 + width * pctx->scale;
+    float y2 = y1 + height * pctx->scale;
+    GPU_RectangleFilled(pctx->target, x1, y1, x2, y2, color);
+}
+
+static void blitRectOffset(
+    int dstX,
+    int dstY,
+    int width,
+    int height,
+    int offsetX,
+    int offsetY,
+    Color color = WHITE)
+{
+    float x1 = dstX * width * pctx->scale + offsetX;
+    float y1 = dstY * height * pctx->scale + offsetY;
+    float x2 = x1 + width * pctx->scale;
+    float y2 = y1 + height * pctx->scale;
+    GPU_RectangleFilled(pctx->target, x1, y1, x2, y2, color);
+}
+
 static void blitChar(char ch, int dstX, int dstY)
 {
     pctx->src->x = ((int)ch % textLine) * charWidth;
@@ -112,6 +138,7 @@ static void blitText(string str, int dstX, int dstY, Color color = WHITE)
     int offsetX = 0;
 
     for (char &ch : str) {
+        blitRect(dstX + offsetX, dstY, charWidth, charHeight, backgroundColor);
         blitChar(ch, dstX + offsetX, dstY);
         offsetX++;
     }

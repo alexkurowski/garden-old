@@ -11,6 +11,7 @@ static void handleResize(int w, int h)
     SDL_GetWindowSize(pctx->window, &sdlWidth, &sdlHeight);
 
     pctx->scale = initialScale * glWidth / sdlWidth;
+    pctx->scaleDiff = glWidth / sdlWidth;
     pctx->windowWidth = glWidth;
     pctx->windowHeight = glHeight;
     pctx->tilesWidth = pctx->windowWidth / (tileWidth * pctx->scale);
@@ -93,38 +94,23 @@ static void drawDebug(Context *ctx)
     blitText(format("%d", pctx->input.mouse.btnPressed), 0, 4);
 }
 
-static void drawTiles(Context *ctx, Vector2 orig)
+static void drawTiles(Context *ctx, Vector2 offset)
 {
-    // Rectangle src;
-    // Rectangle dst;
-    // Rectangle fill = {8 * tileWidth, 5 * tileHeight, tileWidth, tileHeight};
+    int x1 = -offset.x / (tileWidth * pctx->scale);
+    int y1 = -offset.y / (tileHeight * pctx->scale);
+    int x2 = x1 + pctx->tilesWidth;
+    int y2 = y1 + pctx->tilesHeight;
 
-    // int x1 = orig.x / (tileWidth * pctx->scale);
-    // int y1 = orig.y / (tileHeight * pctx->scale);
-    // int x2 = x1 + pctx->tilesWidth;
-    // int y2 = y1 + pctx->tilesHeight;
+    x1--;
+    y1--;
+    x2++;
+    y2++;
 
-    // x1--;
-    // y1--;
-    // x2++;
-    // y2++;
-
-    // for (int i = x1; i < x2; i++) {
-    //     for (int j = y1; j < y2; j++) {
-    //         src.x = 5 * tileWidth;
-    //         src.y = 0 * tileHeight;
-    //         src.width = tileWidth;
-    //         src.height = tileHeight;
-
-    //         dst.x = i * tileWidth * pctx->scale;
-    //         dst.y = j * tileHeight * pctx->scale;
-    //         dst.width = tileWidth * pctx->scale;
-    //         dst.height = tileHeight * pctx->scale;
-
-    //         DrawTexturePro(pctx->tilesImage, fill, dst, orig, 0, BLACK);
-    //         DrawTexturePro(pctx->tilesImage, src, dst, orig, 0, GREEN);
-    //     }
-    // }
+    for (int i = x1; i <= x2; i++) {
+        for (int j = y1; j <= y2; j++) {
+            blitTileOffset(5, 0, i, j, offset.x, offset.y, GREEN);
+        }
+    }
 }
 
 static void drawEntities(Context *ctx, Vector2 offset)
@@ -134,28 +120,24 @@ static void drawEntities(Context *ctx, Vector2 offset)
             Position *pos = component::position(ctx, &entity);
             Tile *tile = component::tile(ctx, &entity);
 
+            blitRectOffset(
+                pos->x,
+                pos->y,
+                tileWidth,
+                tileHeight,
+                offset.x,
+                offset.y,
+                backgroundColor);
+
             blitTileOffset(
                 tile->x, tile->y, pos->x, pos->y, offset.x, offset.y, WHITE);
-
-            // src.x = tile->x * tileWidth;
-            // src.y = tile->y * tileHeight;
-            // src.width = tileWidth;
-            // src.height = tileHeight;
-
-            // dst.x = pos->x * tileWidth * pctx->scale;
-            // dst.y = pos->y * tileHeight * pctx->scale;
-            // dst.width = tileWidth * pctx->scale;
-            // dst.height = tileHeight * pctx->scale;
-
-            // DrawTexturePro(pctx->tilesImage, fill, dst, orig, 0, BLACK);
-            // DrawTexturePro(pctx->tilesImage, src, dst, orig, 0, WHITE);
         }
     }
 }
 
 static void drawUI(Context *ctx)
 {
-    // drawText("Test string over here c'mon! WHAT's UP @", 0, 20);
+    blitText("Test string over here c'mon! WHAT's UP @", 0, 20);
 }
 
 static void beforeDraw()
@@ -172,13 +154,11 @@ static void draw(Context *ctx)
 {
     beforeDraw();
 
-    { // 2D
-        Vector2 offset = getCameraOffset(ctx);
-        drawTiles(ctx, offset);
-        drawEntities(ctx, offset);
-        drawUI(ctx);
-        drawDebug(ctx);
-    }
+    Vector2 offset = getCameraOffset(ctx);
+    drawTiles(ctx, offset);
+    drawEntities(ctx, offset);
+    drawUI(ctx);
+    drawDebug(ctx);
 
     afterDraw();
 }

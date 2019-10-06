@@ -44,13 +44,14 @@ struct PlatformContext {
     Input input;
 
     bool running;
-    int windowWidth;
+    int windowWidth; // Scaled screen pixels
     int windowHeight;
-    int tilesWidth;
+    int tilesWidth; // Tiles on screen
     int tilesHeight;
-    int textWidth;
+    int textWidth; // Text tiles on screen
     int textHeight;
-    float scale;
+    float scale;     // Total scale (os * game)
+    float scaleDiff; // OS scale
 
     unsigned long int lastFrame;
     unsigned long int currentFrame;
