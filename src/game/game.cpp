@@ -8,6 +8,7 @@ static void init()
         throw runtime_error("Not enough memory");
     }
 
+    map::generate(ctx);
     systems::newGame(ctx);
 }
 

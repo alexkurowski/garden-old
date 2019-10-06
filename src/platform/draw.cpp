@@ -45,40 +45,6 @@ static void quitRender()
     GPU_Quit();
 }
 
-static void drawText(string str, int x, int y)
-{
-    // Vector2 orig;
-    // const int line = 16;
-
-    // Rectangle src;
-    // Rectangle brd;
-    // Rectangle dst;
-    // int ox = 0;
-
-    // DrawRectangle(
-    //     x * charWidth * pctx->scale,
-    //     y * charHeight * pctx->scale,
-    //     str.size() * charWidth * pctx->scale,
-    //     1 * charHeight * pctx->scale,
-    //     BLACK);
-
-    // for (char &ch : str) {
-    //     src.x = ((int)ch % line) * charWidth;
-    //     src.y = floor((int)ch / line) * charHeight;
-    //     src.width = charWidth;
-    //     src.height = charHeight;
-
-    //     dst.x = (x + ox) * charWidth * pctx->scale;
-    //     dst.y = y * charHeight * pctx->scale;
-    //     dst.width = charWidth * pctx->scale;
-    //     dst.height = charHeight * pctx->scale;
-
-    //     DrawTexturePro(pctx->textImage, src, dst, orig, 0, WHITE);
-
-    //     ox++;
-    // }
-}
-
 static void drawDebug(Context *ctx)
 {
     blitText(format("%f", pctx->input.dt), 0, 0);
@@ -108,7 +74,15 @@ static void drawTiles(Context *ctx, Vector2 offset)
 
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
-            blitTileOffset(5, 0, i, j, offset.x, offset.y, GREEN);
+            switch (map::typeAt(ctx, i, j)) {
+            case TileType::Grass: {
+                blitTileOffset(5, 0, i, j, offset.x, offset.y, GREEN);
+            } break;
+            case TileType::Tree: {
+                blitTileOffset(0, 1, i, j, offset.x, offset.y, GREEN);
+            } break;
+            default:;
+            }
         }
     }
 }
@@ -116,9 +90,9 @@ static void drawTiles(Context *ctx, Vector2 offset)
 static void drawEntities(Context *ctx, Vector2 offset)
 {
     for (Entity entity : ctx->entityPool.pool) {
-        if (entity::has(ctx, &entity, PositionComponent | TileComponent)) {
+        if (entity::has(ctx, &entity, PositionComponent | SpriteComponent)) {
             Position *pos = component::position(ctx, &entity);
-            Tile *tile = component::tile(ctx, &entity);
+            Sprite *spr = component::sprite(ctx, &entity);
 
             blitRectOffset(
                 pos->x,
@@ -130,14 +104,14 @@ static void drawEntities(Context *ctx, Vector2 offset)
                 backgroundColor);
 
             blitTileOffset(
-                tile->x, tile->y, pos->x, pos->y, offset.x, offset.y, WHITE);
+                spr->x, spr->y, pos->x, pos->y, offset.x, offset.y, WHITE);
         }
     }
 }
 
 static void drawUI(Context *ctx)
 {
-    blitText("Test string over here c'mon! WHAT's UP @", 0, 20);
+    // blitText("Test string over here c'mon! WHAT's UP @", 0, 20);
 }
 
 static void beforeDraw()

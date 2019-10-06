@@ -15,12 +15,12 @@ static void newGame(Context *ctx)
         position->x = 0;
         position->y = 0;
 
-        Tile *tile = component::tile(ctx, e);
-        tile->x = 27;
-        tile->y = 0;
+        Sprite *sprite = component::sprite(ctx, e);
+        sprite->x = 27;
+        sprite->y = 0;
 
         entity::add(ctx, e, PositionComponent);
-        entity::add(ctx, e, TileComponent);
+        entity::add(ctx, e, SpriteComponent);
     }
 
     {
@@ -30,12 +30,12 @@ static void newGame(Context *ctx)
         position->x = 1;
         position->y = 1;
 
-        Tile *tile = component::tile(ctx, e);
-        tile->x = 26;
-        tile->y = 0;
+        Sprite *sprite = component::sprite(ctx, e);
+        sprite->x = 26;
+        sprite->y = 0;
 
         entity::add(ctx, e, PositionComponent);
-        entity::add(ctx, e, TileComponent);
+        entity::add(ctx, e, SpriteComponent);
     }
 
     {
@@ -45,12 +45,12 @@ static void newGame(Context *ctx)
         position->x = 2;
         position->y = 2;
 
-        Tile *tile = component::tile(ctx, e);
-        tile->x = 25;
-        tile->y = 0;
+        Sprite *sprite = component::sprite(ctx, e);
+        sprite->x = 25;
+        sprite->y = 0;
 
         entity::add(ctx, e, PositionComponent);
-        entity::add(ctx, e, TileComponent);
+        entity::add(ctx, e, SpriteComponent);
         ctx->playerEntity = e->id;
     }
 }

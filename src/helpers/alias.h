@@ -16,6 +16,8 @@ using cstring = const char *;
 using EntityId = unsigned int;
 using ComponentMask = unsigned long long int;
 
+constexpr int MAP_WIDTH = 256;
+constexpr int MAP_HEIGHT = 256;
 constexpr EntityId ENTITY_POOL = 256;
 
 constexpr Color LIGHTGRAY = {200, 200, 200, 255};

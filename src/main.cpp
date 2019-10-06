@@ -2,6 +2,7 @@
 
 #include "content/components.cpp"
 #include "content/entities.cpp"
+#include "content/map.cpp"
 #include "systems/global.cpp"
 #include "systems/test.cpp"
 #include "game/game.cpp"

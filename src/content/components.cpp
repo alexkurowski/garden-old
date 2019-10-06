@@ -12,7 +12,7 @@ namespace component
 {
 
 COMPONENT_GETTER(Position, position);
-COMPONENT_GETTER(Tile, tile);
+COMPONENT_GETTER(Sprite, sprite);
 COMPONENT_GETTER(Actor, actor);
 
 } // namespace component
