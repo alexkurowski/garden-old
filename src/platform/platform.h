@@ -1,5 +1,3 @@
-using Color = SDL_Color;
-
 enum struct Command {
     None,
     GoN,
@@ -50,8 +48,8 @@ struct PlatformContext {
     int tilesHeight;
     int textWidth; // Text tiles on screen
     int textHeight;
-    float scale;     // Total scale (os * game)
-    float scaleDiff; // OS scale
+    float scale;     // Total scale (os and game)
+    float scaleDiff; // OS scale factor
 
     unsigned long int lastFrame;
     unsigned long int currentFrame;

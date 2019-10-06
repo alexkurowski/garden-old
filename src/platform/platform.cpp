@@ -11,10 +11,14 @@ static void init()
     initRender();
 
     pctx->running = true;
+
+    game::init();
 }
 
 static void quit()
 {
+    game::quit();
+
     quitRender();
 
     delete pctx;

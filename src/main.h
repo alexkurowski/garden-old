@@ -12,7 +12,7 @@
 
 #include "json.hpp"
 
-#include "define.h"
+#include "helpers/alias.h"
 #include "helpers/math.h"
 #include "helpers/text.h"
 
@@ -20,4 +20,4 @@
 #include "content/entities.h"
 #include "game/game.h"
 #include "platform/platform.h"
-#include "platform/render.h"
+#include "platform/draw.h"

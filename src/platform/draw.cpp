@@ -5,8 +5,8 @@ static void handleResize(int w, int h)
 {
     GPU_SetWindowResolution(w, h);
 
-    int glWidth, glHeight;   // Actual pixels
-    int sdlWidth, sdlHeight; // Pixels scaled by OS
+    int glWidth, glHeight;   // Actual screen pixels
+    int sdlWidth, sdlHeight; // Pixels reported by OS
     SDL_GL_GetDrawableSize(pctx->window, &glWidth, &glHeight);
     SDL_GetWindowSize(pctx->window, &sdlWidth, &sdlHeight);
 
