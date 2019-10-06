@@ -27,44 +27,66 @@ static Command getCommand()
     }
 }
 
-static MouseButtonState getMouseButtonState(int button)
-{
-    if (IsMouseButtonPressed(button)) {
-        return MouseButtonState::Pressed;
-    } else if (IsMouseButtonReleased(button)) {
-        return MouseButtonState::Released;
-    } else if (IsMouseButtonDown(button)) {
-        return MouseButtonState::Down;
-    } else {
-        return MouseButtonState::Up;
-    }
-}
+// static MouseButtonState getMouseButtonState(int button)
+// {
+//     if (IsMouseButtonPressed(button)) {
+//         return MouseButtonState::Pressed;
+//     } else if (IsMouseButtonReleased(button)) {
+//         return MouseButtonState::Released;
+//     } else if (IsMouseButtonDown(button)) {
+//         return MouseButtonState::Down;
+//     } else {
+//         return MouseButtonState::Up;
+//     }
+// }
 
 static Input &input(Context *ctx)
 {
+    SDL_Event *event = &pctx->event;
     Input &input = pctx->input;
 
-    input.dt = GetFrameTime();
+    while (SDL_PollEvent(event) != 0) {
+        switch (event->type) {
+        case SDL_QUIT: {
+            pctx->running = false;
+        } break;
 
-    input.keyboard.shift =
-        IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT);
-    input.keyboard.ctrl =
-        IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL);
-    input.keyboard.alt = IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT);
-    input.keyboard.keyPressed = (char)GetKeyPressed();
+        case SDL_WINDOWEVENT: {
+            switch (event->window.event) {
+            case SDL_WINDOWEVENT_RESIZED: {
+                handleResize(event->window.data1, event->window.data2);
+            } break;
+            }
+        } break;
+        }
 
-    input.mouse.screenX = GetMouseX();
-    input.mouse.screenY = GetMouseY();
-    Vector2 offset = getCameraOffset(ctx);
-    input.mouse.tileX =
-        floor((input.mouse.screenX + offset.x) / (tileWidth * pctx->scale));
-    input.mouse.tileY =
-        floor((input.mouse.screenY + offset.y) / (tileHeight * pctx->scale));
-    input.mouse.left = getMouseButtonState(0);
-    input.mouse.right = getMouseButtonState(1);
+        // input.dt = GetFrameTime();
+
+        // input.keyboard.shift =
+        //     IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT);
+        // input.keyboard.ctrl =
+        //     IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL);
+        // input.keyboard.alt =
+        //     IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT);
+        // input.keyboard.keyPressed = (char)GetKeyPressed();
+
+        // input.mouse.screenX = GetMouseX();
+        // input.mouse.screenY = GetMouseY();
+        // Vector2 offset = getCameraOffset(ctx);
+        // input.mouse.tileX =
+        //     floor((input.mouse.screenX + offset.x) / (tileWidth *
+        //     pctx->scale));
+        // input.mouse.tileY = floor(
+        //     (input.mouse.screenY + offset.y) / (tileHeight * pctx->scale));
+        // input.mouse.left = getMouseButtonState(0);
+        // input.mouse.right = getMouseButtonState(1);
+    }
+
+    // pctx->last = NOW;
+    // NOW = SDL_GetPerformanceCounter();
+    // input.dt = ((NOW - LAST)*1000 / (double)SDL_GetPerformanceFrequency() );
 
     input.cmd = getCommand();
-
     return input;
 }
 

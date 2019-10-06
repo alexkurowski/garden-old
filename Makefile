@@ -1,19 +1,16 @@
 default: build_osx run
 
-INPUT_OSX = \
-	lib/osx/libraylib-bad.a \
-	src/main.cpp
+INPUT_OSX = src/main.cpp
 
 OUTPUT = bin/out
 
 LIBS = \
-	-lstdc++
+	-lstdc++   \
+	-lSDL2     \
+	-lSDL2_ttf \
+	-lSDL2_gpu
 
 LIBS_OSX = \
-	-framework CoreVideo \
-	-framework IOKit     \
-	-framework Cocoa     \
-	-framework GLUT      \
 	-framework OpenGL
 
 OPTS = \

@@ -12,12 +12,12 @@ static Vector2 getCameraOffset(Context *ctx)
             float y = -pctx->windowHeight / 2 +
                 position->y * tileHeight * pctx->scale +
                 tileHeight * pctx->scale / 2;
-            return (Vector2){x, y};
+            return Vector2{-x, -y};
         } else {
-            return (Vector2){0, 0};
+            return Vector2{0, 0};
         }
     } else {
-        return (Vector2){0, 0};
+        return Vector2{0, 0};
     }
 }
 

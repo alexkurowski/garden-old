@@ -9,6 +9,8 @@ static void init()
     }
 
     initRender();
+
+    pctx->running = true;
 }
 
 static void quit()
@@ -25,7 +27,7 @@ static Context *update(Input &input)
 
 static void mainLoop()
 {
-    while (!WindowShouldClose()) {
+    while (pctx->running) {
         draw(update(input(game::ctx)));
     }
 }

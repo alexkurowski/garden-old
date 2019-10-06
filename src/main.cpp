@@ -5,9 +5,9 @@
 #include "systems/global.cpp"
 #include "systems/test.cpp"
 #include "game/game.cpp"
-#include "platform/common.cpp"
-#include "platform/input.cpp"
+#include "platform/camera.cpp"
 #include "platform/render.cpp"
+#include "platform/input.cpp"
 #include "platform/platform.cpp"
 
 int main()

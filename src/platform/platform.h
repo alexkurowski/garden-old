@@ -1,7 +1,4 @@
-constexpr int tileWidth = 16;
-constexpr int tileHeight = 16;
-constexpr int charWidth = 8;
-constexpr int charHeight = 16;
+using Color = SDL_Color;
 
 enum struct Command {
     None,
@@ -46,6 +43,15 @@ struct Input {
 };
 
 struct PlatformContext {
+    GPU_Target *target;
+    SDL_Window *window;
+    GPU_Image *tilesImage;
+    GPU_Image *textImage;
+    GPU_Rect *src;
+
+    SDL_Event event;
+
+    bool running;
     int windowWidth;
     int windowHeight;
     int tilesWidth;
@@ -53,8 +59,6 @@ struct PlatformContext {
     int textWidth;
     int textHeight;
     float scale;
-    Texture2D tilesTexture;
-    Texture2D textTexture;
     Input input;
 };
 
