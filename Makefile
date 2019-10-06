@@ -1,7 +1,7 @@
 default: build_osx run
 
 INPUT_OSX = \
-	lib/osx/libraylib.a \
+	lib/osx/libraylib-bad.a \
 	src/main.cpp
 
 OUTPUT = bin/out

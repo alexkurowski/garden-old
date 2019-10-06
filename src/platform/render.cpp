@@ -1,10 +1,39 @@
 namespace platform
 {
 
-static void setupPresentation()
+static void initRender()
 {
+    pctx->windowWidth = 800;
+    pctx->windowHeight = 600;
+    pctx->scale = 1.5f;
+    pctx->tilesWidth = pctx->windowWidth / (tileWidth * pctx->scale);
+    pctx->tilesHeight = pctx->windowHeight / (tileHeight * pctx->scale);
+    pctx->textWidth = pctx->windowWidth / (charWidth * pctx->scale);
+    pctx->textHeight = pctx->windowHeight / (charHeight * pctx->scale);
+
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+    SetTargetFPS(60);
+    InitWindow(pctx->windowWidth, pctx->windowHeight, "Garden");
+
     pctx->tilesTexture = LoadTexture("assets/tiles16x16.png");
     pctx->textTexture = LoadTexture("assets/text8x16.png");
+}
+
+static void quitRender()
+{
+    UnloadTexture(pctx->tilesTexture);
+    UnloadTexture(pctx->textTexture);
+    CloseWindow();
+}
+
+static void handleResize()
+{
+    pctx->windowWidth = GetScreenWidth();
+    pctx->windowHeight = GetScreenHeight();
+    pctx->tilesWidth = pctx->windowWidth / (tileWidth * pctx->scale);
+    pctx->tilesHeight = pctx->windowHeight / (tileHeight * pctx->scale);
+    pctx->textWidth = pctx->windowWidth / (charWidth * pctx->scale);
+    pctx->textHeight = pctx->windowHeight / (charHeight * pctx->scale);
 }
 
 static void drawText(string str, int x, int y)
@@ -43,7 +72,7 @@ static void drawText(string str, int x, int y)
 
 static void drawDebug(Context *ctx)
 {
-    DrawFPS(10, 10);
+    // DrawFPS(10, 10);
 
     DrawText(
         TextFormat(
@@ -57,6 +86,13 @@ static void drawDebug(Context *ctx)
         TextFormat("%d %d", pctx->input.mouse.tileX, pctx->input.mouse.tileY),
         10,
         50,
+        20,
+        WHITE);
+
+    DrawText(
+        TextFormat("%d %d", pctx->windowWidth, pctx->windowHeight),
+        10,
+        10,
         20,
         WHITE);
 }
@@ -129,6 +165,10 @@ static void drawUI(Context *ctx)
 
 static void draw(Context *ctx)
 {
+    if (IsWindowResized()) {
+        handleResize();
+    }
+
     BeginDrawing();
     ClearBackground({10, 15, 20, 255});
 
