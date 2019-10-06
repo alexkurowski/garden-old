@@ -4,23 +4,23 @@ namespace platform
 static Command getCommand()
 {
     char key = pctx->input.keyboard.keyPressed;
-    char lkey = tolower(key);
+    char lckey = tolower(key);
 
-    if (lkey == 'j') {
+    if (lckey == 'j') {
         return Command::GoS;
-    } else if (lkey == 'k') {
+    } else if (lckey == 'k') {
         return Command::GoN;
-    } else if (lkey == 'h') {
+    } else if (lckey == 'h') {
         return Command::GoW;
-    } else if (lkey == 'l') {
+    } else if (lckey == 'l') {
         return Command::GoE;
-    } else if (lkey == 'y') {
+    } else if (lckey == 'y') {
         return Command::GoNW;
-    } else if (lkey == 'u') {
+    } else if (lckey == 'u') {
         return Command::GoNE;
-    } else if (lkey == 'b') {
+    } else if (lckey == 'b') {
         return Command::GoSW;
-    } else if (lkey == 'n') {
+    } else if (lckey == 'n') {
         return Command::GoSE;
     } else {
         return Command::None;
@@ -40,7 +40,7 @@ static MouseButtonState getMouseButtonState(int button)
     }
 }
 
-static Input &input()
+static Input &input(Context *ctx)
 {
     Input &input = pctx->input;
 
@@ -55,8 +55,11 @@ static Input &input()
 
     input.mouse.screenX = GetMouseX();
     input.mouse.screenY = GetMouseY();
-    input.mouse.tileX = input.mouse.screenX / (tileWidth * pctx->scale);
-    input.mouse.tileY = input.mouse.screenY / (tileHeight * pctx->scale);
+    Vector2 offset = getCameraOffset(ctx);
+    input.mouse.tileX =
+        floor((input.mouse.screenX + offset.x) / (tileWidth * pctx->scale));
+    input.mouse.tileY =
+        floor((input.mouse.screenY + offset.y) / (tileHeight * pctx->scale));
     input.mouse.left = getMouseButtonState(0);
     input.mouse.right = getMouseButtonState(1);
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include <variant>
 #include <stdexcept>
+#include <cmath>
 
 #include "raylib.h"
 #include "json.hpp"

@@ -1,5 +1,7 @@
 constexpr int tileWidth = 16;
 constexpr int tileHeight = 16;
+constexpr int charWidth = 8;
+constexpr int charHeight = 16;
 
 enum struct Command {
     None,
@@ -48,9 +50,12 @@ struct PlatformContext {
     int windowHeight;
     int tilesWidth;
     int tilesHeight;
+    int textWidth;
+    int textHeight;
     float scale;
-    Input input;
     Texture2D tilesTexture;
+    Texture2D textTexture;
+    Input input;
 };
 
 namespace platform

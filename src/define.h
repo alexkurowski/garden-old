@@ -6,6 +6,8 @@ using std::to_string;
 using std::variant;
 using std::vector;
 using std::runtime_error;
+using std::floor;
+using std::ceil;
 
 using json = nlohmann::json;
 

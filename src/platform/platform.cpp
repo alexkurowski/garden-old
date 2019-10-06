@@ -10,9 +10,11 @@ static void init()
 
     pctx->windowWidth = 800;
     pctx->windowHeight = 600;
-    pctx->scale = 2.f;
+    pctx->scale = 1.5f;
     pctx->tilesWidth = pctx->windowWidth / (tileWidth * pctx->scale);
     pctx->tilesHeight = pctx->windowHeight / (tileHeight * pctx->scale);
+    pctx->textWidth = pctx->windowWidth / (charWidth * pctx->scale);
+    pctx->textHeight = pctx->windowHeight / (charHeight * pctx->scale);
 
     SetConfigFlags(FLAG_VSYNC_HINT);
     SetTargetFPS(60);
@@ -24,6 +26,7 @@ static void init()
 static void quit()
 {
     UnloadTexture(pctx->tilesTexture);
+    UnloadTexture(pctx->textTexture);
     CloseWindow();
 
     delete pctx;
@@ -37,7 +40,7 @@ static Context *update(Input &input)
 static void mainLoop()
 {
     while (!WindowShouldClose()) {
-        draw(update(input()));
+        draw(update(input(game::ctx)));
     }
 }
 
