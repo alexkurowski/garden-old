@@ -47,14 +47,19 @@ static void newGame(Context *ctx)
         position->x = 2;
         position->y = 2;
 
+        Sight *sight = component::sight(ctx, e);
+        sight->radius = 12;
+
         Sprite *sprite = component::sprite(ctx, e);
         sprite->x = 25;
         sprite->y = 0;
         sprite->color = WHITE;
 
         entity::add(ctx, e, PositionComponent);
+        entity::add(ctx, e, SightComponent);
         entity::add(ctx, e, SpriteComponent);
         ctx->playerEntity = e->id;
+        recalculateFov(ctx);
     }
 }
 

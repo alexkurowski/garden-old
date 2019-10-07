@@ -8,7 +8,7 @@ static void init()
         throw runtime_error("Not enough memory");
     }
 
-    tiles::initData();
+    tiles::initData(ctx);
     blueprints::generateTest(ctx);
     map::createFromBlueprint(ctx);
     systems::newGame(ctx);
@@ -20,6 +20,8 @@ static Context *update(Input &input)
     for (Entity entity : ctx->entityPool.pool) {
         systems::moveSprite(ctx, &entity, input.dt);
     }
+    systems::updateTiles(ctx);
+
     return ctx;
 }
 

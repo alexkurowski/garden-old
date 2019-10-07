@@ -6,6 +6,7 @@ static void playerInput(Context *ctx, Input &input)
     if (input.keyboard.keyPressed == 'r') {
         blueprints::generateTest(ctx);
         map::createFromBlueprint(ctx);
+        recalculateFov(ctx);
     }
 
     if (ctx->playerEntity != -1) {
@@ -64,6 +65,8 @@ static void playerInput(Context *ctx, Input &input)
                     spr->oy = 0;
                 }
             }
+
+            recalculateFov(ctx);
         }
     }
 }

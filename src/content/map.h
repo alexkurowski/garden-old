@@ -1,11 +1,13 @@
 struct Tile {
     TileType type;
     TileVariant variant;
+    bool visible;
+    int alpha;
 };
 
 struct Map {
     int seed;
-    Tile blankTile = {TileType::Blank, 0};
+    Tile blankTile;
     Tile tiles[MAP_WIDTH * MAP_HEIGHT];
 };
 

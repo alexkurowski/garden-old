@@ -18,6 +18,7 @@ using ComponentMask = unsigned long long int;
 constexpr int MAP_WIDTH = 256;
 constexpr int MAP_HEIGHT = 256;
 constexpr EntityId ENTITY_POOL = 256;
+constexpr float MAX_SIGHT = 20;
 
 constexpr Color LIGHTGRAY = {200, 200, 200, 255};
 constexpr Color GRAY = {130, 130, 130, 255};

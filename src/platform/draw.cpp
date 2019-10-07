@@ -54,7 +54,22 @@ static void drawDebug(Context *ctx)
         1);
     Tile *tile =
         map::tileAt(ctx, pctx->input.mouse.tile.x, pctx->input.mouse.tile.y);
-    blitText(format("%d %d", tile->type, tile->variant), 0, 2);
+
+    int targetAlpha;
+    if (tile->visible) {
+        targetAlpha = systems::fullVisibility;
+    } else {
+        if (tile->alpha > 0) {
+            targetAlpha = systems::halfVisibility;
+        } else {
+            targetAlpha = systems::noVisibility;
+        }
+    }
+
+    blitText(
+        format("%d %d %d %d", tile->type, tile->variant, tile->alpha, targetAlpha),
+        0,
+        2);
 }
 
 static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
@@ -64,11 +79,17 @@ static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
     int x2 = bounds.x + bounds.w;
     int y2 = bounds.y + bounds.h;
 
+    Tile *tile;
     TileData *tileData;
+    Color color;
 
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
-            tileData = map::tileDataAt(ctx, i, j);
+            tile = map::tileAt(ctx, i, j);
+            tileData = map::getTileData(ctx, tile);
+
+            color = tileData->color;
+            color.a = tile->alpha;
 
             blitTileOffset(
                 tileData->sprite.x,
@@ -77,13 +98,16 @@ static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
                 j,
                 offset.x,
                 offset.y,
-                tileData->color);
+                color);
         }
     }
 }
 
 static void drawEntities(Context *ctx, Vector2 offset, Rect bounds)
 {
+    Tile *tile;
+    Color color;
+
     for (Entity entity : ctx->entityPool.pool) {
         if (entity::has(ctx, &entity, PositionComponent | SpriteComponent)) {
             Position *pos = component::position(ctx, &entity);
@@ -92,6 +116,10 @@ static void drawEntities(Context *ctx, Vector2 offset, Rect bounds)
             if (outside(bounds, pos->x, pos->y)) {
                 continue;
             }
+
+            tile = map::tileAt(ctx, pos->x, pos->y);
+            color = spr->color;
+            color.a = tile->alpha;
 
             blitRectOffset(
                 pos->x,
@@ -109,7 +137,7 @@ static void drawEntities(Context *ctx, Vector2 offset, Rect bounds)
                 pos->y,
                 offset.x - spr->ox * tileWidth * pctx->scale,
                 offset.y - spr->oy * tileHeight * pctx->scale,
-                spr->color);
+                color);
         }
     }
 }

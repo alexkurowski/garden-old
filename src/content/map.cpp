@@ -20,7 +20,11 @@ static void createFromBlueprint(Context *ctx)
         for (int j = 0; j < MAP_HEIGHT; j++) {
             tile = &ctx->map.tiles[at(i, j)];
             tile->type = ctx->blueprint.tiles[at(i, j)];
-            tile->variant = random(0, tiles::data[tile->type].size() - 1);
+            // TODO: this random needs to be deterministic, based on the seed
+            // provided by the blueprint
+            tile->variant = random(0, ctx->tileData[tile->type].size() - 1);
+            tile->visible = false;
+            tile->alpha = 0;
         }
     }
 }
@@ -34,15 +38,14 @@ static Tile *tileAt(Context *ctx, int x, int y)
     }
 }
 
+static TileData *getTileData(Context *ctx, Tile *tile)
+{
+    return &ctx->tileData[tile->type][tile->variant];
+}
+
 static TileData *tileDataAt(Context *ctx, int x, int y)
 {
-    Tile *tile;
-    if (isOutBounds(x, y)) {
-        tile = &ctx->map.blankTile;
-    } else {
-        tile = tileAt(ctx, x, y);
-    }
-    return &tiles::data[tile->type][tile->variant];
+    return getTileData(ctx, tileAt(ctx, x, y));
 }
 
 } // namespace map
