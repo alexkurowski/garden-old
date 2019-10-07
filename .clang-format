@@ -6,6 +6,7 @@ AlignOperands: false
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
+AlwaysBreakAfterReturnType: None
 BasedOnStyle: LLVM
 BinPackArguments: false
 BinPackParameters: false

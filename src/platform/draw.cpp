@@ -67,17 +67,12 @@ static void drawDebug(Context *ctx)
         5);
 }
 
-static void drawTiles(Context *ctx, Vector2 offset)
+static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
 {
-    int x1 = -offset.x / (tileWidth * pctx->scale);
-    int y1 = -offset.y / (tileHeight * pctx->scale);
-    int x2 = x1 + pctx->tilesWidth;
-    int y2 = y1 + pctx->tilesHeight;
-
-    x1--;
-    y1--;
-    x2++;
-    y2++;
+    int x1 = bounds.x;
+    int y1 = bounds.y;
+    int x2 = bounds.x + bounds.w;
+    int y2 = bounds.y + bounds.h;
 
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
@@ -94,12 +89,16 @@ static void drawTiles(Context *ctx, Vector2 offset)
     }
 }
 
-static void drawEntities(Context *ctx, Vector2 offset)
+static void drawEntities(Context *ctx, Vector2 offset, Rect bounds)
 {
     for (Entity entity : ctx->entityPool.pool) {
         if (entity::has(ctx, &entity, PositionComponent | SpriteComponent)) {
             Position *pos = component::position(ctx, &entity);
             Sprite *spr = component::sprite(ctx, &entity);
+
+            if (outside(bounds, pos->x, pos->y)) {
+                continue;
+            }
 
             blitRectOffset(
                 pos->x,
@@ -142,8 +141,9 @@ static void draw(Context *ctx)
     beforeDraw();
 
     Vector2 offset = getCameraOffset(ctx);
-    drawTiles(ctx, offset);
-    drawEntities(ctx, offset);
+    Rect bounds = getCameraTileBounds(ctx);
+    drawTiles(ctx, offset, bounds);
+    drawEntities(ctx, offset, bounds);
     drawUI(ctx);
     drawDebug(ctx);
 

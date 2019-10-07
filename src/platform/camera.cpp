@@ -36,4 +36,15 @@ static Vector2 getCameraOffset(Context *ctx)
     }
 }
 
+static Rect getCameraTileBounds(Context *ctx)
+{
+    Rect result;
+    Vector2 offset = getCameraOffset(ctx);
+    result.x = -offset.x / (tileWidth * pctx->scale) - 1;
+    result.y = -offset.y / (tileHeight * pctx->scale) - 1;
+    result.w = pctx->tilesWidth + 2;
+    result.h = pctx->tilesHeight + 2;
+    return result;
+}
+
 } // namespace platform
