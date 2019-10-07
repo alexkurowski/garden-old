@@ -55,21 +55,7 @@ static void drawDebug(Context *ctx)
     Tile *tile =
         map::tileAt(ctx, pctx->input.mouse.tile.x, pctx->input.mouse.tile.y);
 
-    int targetAlpha;
-    if (tile->visible) {
-        targetAlpha = systems::fullVisibility;
-    } else {
-        if (tile->alpha > 0) {
-            targetAlpha = systems::halfVisibility;
-        } else {
-            targetAlpha = systems::noVisibility;
-        }
-    }
-
-    blitText(
-        format("%d %d %d %d", tile->type, tile->variant, tile->alpha, targetAlpha),
-        0,
-        2);
+    blitText(format("%d %d", tile->type, tile->variant), 0, 2);
 }
 
 static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
@@ -89,7 +75,7 @@ static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
             tileData = map::getTileData(ctx, tile);
 
             color = tileData->color;
-            color.a = tile->alpha;
+            color.a = floor(tile->alpha * 255);
 
             blitTileOffset(
                 tileData->sprite.x,
@@ -119,7 +105,7 @@ static void drawEntities(Context *ctx, Vector2 offset, Rect bounds)
 
             tile = map::tileAt(ctx, pos->x, pos->y);
             color = spr->color;
-            color.a = tile->alpha;
+            color.a = floor(tile->alpha * 255);
 
             blitRectOffset(
                 pos->x,

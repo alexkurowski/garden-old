@@ -2,7 +2,7 @@ struct Tile {
     TileType type;
     TileVariant variant;
     bool visible;
-    int alpha;
+    float alpha;
 };
 
 struct Map {

@@ -1,10 +1,10 @@
 namespace systems
 {
 
-constexpr float tileAlphaEase = 0.1f;
-constexpr int fullVisibility = 255; // Tile in sight
-constexpr int halfVisibility = 64;  // Tile remembered
-constexpr int noVisibility = 0;
+constexpr float tileAlphaEase = 0.25f;
+constexpr float fullVisibility = 1.f;   // Tile in sight
+constexpr float halfVisibility = 0.25f; // Tile remembered
+constexpr float noVisibility = 0.f;
 
 static void updateTiles(Context *ctx)
 {
@@ -18,7 +18,7 @@ static void updateTiles(Context *ctx)
             int y1 = pos->y + MAX_SIGHT * 2;
 
             Tile *tile;
-            int targetAlpha;
+            float targetAlpha;
             float diff;
 
             for (int i = x0; i <= x1; i++) {
@@ -36,7 +36,7 @@ static void updateTiles(Context *ctx)
                     }
 
                     diff = targetAlpha - tile->alpha;
-                    tile->alpha = ceil(tile->alpha + diff * tileAlphaEase);
+                    tile->alpha = tile->alpha + diff * tileAlphaEase;
                 }
             }
         }
