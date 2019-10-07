@@ -18,6 +18,7 @@ static void newGame(Context *ctx)
         Sprite *sprite = component::sprite(ctx, e);
         sprite->x = 27;
         sprite->y = 0;
+        sprite->color = RED;
 
         entity::add(ctx, e, PositionComponent);
         entity::add(ctx, e, SpriteComponent);
@@ -33,6 +34,7 @@ static void newGame(Context *ctx)
         Sprite *sprite = component::sprite(ctx, e);
         sprite->x = 26;
         sprite->y = 0;
+        sprite->color = BLUE;
 
         entity::add(ctx, e, PositionComponent);
         entity::add(ctx, e, SpriteComponent);
@@ -48,6 +50,7 @@ static void newGame(Context *ctx)
         Sprite *sprite = component::sprite(ctx, e);
         sprite->x = 25;
         sprite->y = 0;
+        sprite->color = WHITE;
 
         entity::add(ctx, e, PositionComponent);
         entity::add(ctx, e, SpriteComponent);

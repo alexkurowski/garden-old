@@ -6,6 +6,9 @@ struct Position {
 struct Sprite {
     int x;
     int y;
+    float ox;
+    float oy;
+    Color color;
 };
 
 struct Actor {

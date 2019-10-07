@@ -16,6 +16,7 @@ static Context *update(Input &input)
 {
     systems::playerInput(ctx, input);
     for (Entity entity : ctx->entityPool.pool) {
+        systems::moveSprite(ctx, &entity, input.dt);
     }
     return ctx;
 }

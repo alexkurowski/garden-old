@@ -5,6 +5,7 @@
 #include "content/map.cpp"
 #include "systems/global.cpp"
 #include "systems/test.cpp"
+#include "systems/sprite.cpp"
 #include "game/game.cpp"
 #include "platform/camera.cpp"
 #include "platform/draw.cpp"

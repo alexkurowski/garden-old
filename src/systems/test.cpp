@@ -3,41 +3,66 @@ namespace systems
 
 static void playerInput(Context *ctx, Input &input)
 {
+    if (input.keyboard.keyPressed == 'r') {
+        map::generate(ctx);
+    }
+
     if (ctx->playerEntity != -1) {
         Entity *e = entity::get(ctx, ctx->playerEntity);
         Position *pos = component::position(ctx, e);
 
+        int dx = 0;
+        int dy = 0;
+
         switch (input.cmd) {
         case Command::GoN: {
-            pos->y -= 1;
+            dy--;
         } break;
         case Command::GoS: {
-            pos->y += 1;
+            dy++;
         } break;
         case Command::GoW: {
-            pos->x -= 1;
+            dx--;
         } break;
         case Command::GoE: {
-            pos->x += 1;
+            dx++;
         } break;
         case Command::GoNW: {
-            pos->x -= 1;
-            pos->y -= 1;
+            dx--;
+            dy--;
         } break;
         case Command::GoNE: {
-            pos->x += 1;
-            pos->y -= 1;
+            dx++;
+            dy--;
         } break;
         case Command::GoSW: {
-            pos->x -= 1;
-            pos->y += 1;
+            dx--;
+            dy++;
         } break;
         case Command::GoSE: {
-            pos->x += 1;
-            pos->y += 1;
+            dx++;
+            dy++;
         } break;
         default:
             break;
+        }
+
+        if (dx != 0 || dy != 0) {
+            pos->x += dx;
+            pos->y += dy;
+
+            if (entity::has(ctx, e, SpriteComponent)) {
+                Sprite *spr = component::sprite(ctx, e);
+                spr->ox += dx;
+                spr->oy += dy;
+
+                if (abs(spr->ox) < 0.01f) {
+                    spr->ox = 0;
+                }
+                if (abs(spr->oy) < 0.01f) {
+                    spr->oy = 0;
+                }
+            }
         }
     }
 }

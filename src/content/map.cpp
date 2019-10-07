@@ -13,10 +13,11 @@ static int at(int x, int y)
 
 static void generate(Context *ctx)
 {
+    int seed = ctx->map.seed = random(0, 1000);
     Tile *tiles = ctx->map.tiles;
     for (int i = 0; i < MAP_WIDTH; i++) {
         for (int j = 0; j < MAP_HEIGHT; j++) {
-            if (random(0, 8) == 0) {
+            if (noiseAt(i * 0.1, j * 0.1, seed) < 0.3) {
                 tiles[at(i, j)].type = TileType::Tree;
             } else {
                 tiles[at(i, j)].type = TileType::Grass;

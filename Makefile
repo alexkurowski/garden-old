@@ -7,7 +7,6 @@ OUTPUT = bin/out
 LIBS = \
 	-lstdc++   \
 	-lSDL2     \
-	-lSDL2_ttf \
 	-lSDL2_gpu
 
 LIBS_OSX = \

@@ -58,6 +58,13 @@ static void drawDebug(Context *ctx)
         2);
     blitText(format("%d", pctx->input.keyboard.keyPressed), 0, 3);
     blitText(format("%d", pctx->input.mouse.btnPressed), 0, 4);
+    blitText(
+        format(
+            "%d",
+            map::typeAt(
+                ctx, pctx->input.mouse.tile.x, pctx->input.mouse.tile.y)),
+        0,
+        5);
 }
 
 static void drawTiles(Context *ctx, Vector2 offset)
@@ -99,12 +106,18 @@ static void drawEntities(Context *ctx, Vector2 offset)
                 pos->y,
                 tileWidth,
                 tileHeight,
-                offset.x,
-                offset.y,
+                offset.x - spr->ox * tileWidth * pctx->scale,
+                offset.y - spr->oy * tileHeight * pctx->scale,
                 backgroundColor);
 
             blitTileOffset(
-                spr->x, spr->y, pos->x, pos->y, offset.x, offset.y, WHITE);
+                spr->x,
+                spr->y,
+                pos->x,
+                pos->y,
+                offset.x - spr->ox * tileWidth * pctx->scale,
+                offset.y - spr->oy * tileHeight * pctx->scale,
+                spr->color);
         }
     }
 }
