@@ -49,22 +49,12 @@ static void drawDebug(Context *ctx)
 {
     blitText(format("%f", pctx->input.dt), 0, 0);
     blitText(
-        format("%d %d", pctx->input.mouse.screen.x, pctx->input.mouse.screen.y),
-        0,
-        1);
-    blitText(
         format("%d %d", pctx->input.mouse.tile.x, pctx->input.mouse.tile.y),
         0,
-        2);
-    blitText(format("%d", pctx->input.keyboard.keyPressed), 0, 3);
-    blitText(format("%d", pctx->input.mouse.btnPressed), 0, 4);
-    blitText(
-        format(
-            "%d",
-            map::typeAt(
-                ctx, pctx->input.mouse.tile.x, pctx->input.mouse.tile.y)),
-        0,
-        5);
+        1);
+    Tile *tile =
+        map::tileAt(ctx, pctx->input.mouse.tile.x, pctx->input.mouse.tile.y);
+    blitText(format("%d %d", tile->type, tile->variant), 0, 2);
 }
 
 static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
@@ -74,17 +64,20 @@ static void drawTiles(Context *ctx, Vector2 offset, Rect bounds)
     int x2 = bounds.x + bounds.w;
     int y2 = bounds.y + bounds.h;
 
+    TileData *tileData;
+
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
-            switch (map::typeAt(ctx, i, j)) {
-            case TileType::Grass: {
-                blitTileOffset(5, 0, i, j, offset.x, offset.y, GREEN);
-            } break;
-            case TileType::Tree: {
-                blitTileOffset(0, 1, i, j, offset.x, offset.y, GREEN);
-            } break;
-            default:;
-            }
+            tileData = map::tileDataAt(ctx, i, j);
+
+            blitTileOffset(
+                tileData->sprite.x,
+                tileData->sprite.y,
+                i,
+                j,
+                offset.x,
+                offset.y,
+                tileData->color);
         }
     }
 }

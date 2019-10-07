@@ -8,7 +8,9 @@ static void init()
         throw runtime_error("Not enough memory");
     }
 
-    map::generate(ctx);
+    tiles::initData();
+    blueprints::generateTest(ctx);
+    map::createFromBlueprint(ctx);
     systems::newGame(ctx);
 }
 

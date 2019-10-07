@@ -18,6 +18,7 @@
 
 #include "content/components.h"
 #include "content/entities.h"
+#include "content/tiles.h"
 #include "content/map.h"
 #include "game/game.h"
 #include "platform/platform.h"

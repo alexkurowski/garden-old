@@ -4,7 +4,8 @@ namespace systems
 static void playerInput(Context *ctx, Input &input)
 {
     if (input.keyboard.keyPressed == 'r') {
-        map::generate(ctx);
+        blueprints::generateTest(ctx);
+        map::createFromBlueprint(ctx);
     }
 
     if (ctx->playerEntity != -1) {

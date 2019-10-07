@@ -3,6 +3,7 @@
 #include "content/components.cpp"
 #include "content/entities.cpp"
 #include "content/map.cpp"
+#include "blueprints/test.cpp"
 #include "systems/global.cpp"
 #include "systems/test.cpp"
 #include "systems/sprite.cpp"

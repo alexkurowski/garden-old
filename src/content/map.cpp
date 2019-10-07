@@ -11,28 +11,38 @@ static int at(int x, int y)
     return x + y * MAP_WIDTH;
 }
 
-static void generate(Context *ctx)
+static void createFromBlueprint(Context *ctx)
 {
-    int seed = ctx->map.seed = random(0, 1000);
-    Tile *tiles = ctx->map.tiles;
+    Tile *tile;
+
+    ctx->map.seed = ctx->blueprint.seed;
     for (int i = 0; i < MAP_WIDTH; i++) {
         for (int j = 0; j < MAP_HEIGHT; j++) {
-            if (noiseAt(i * 0.1, j * 0.1, seed) < 0.3) {
-                tiles[at(i, j)].type = TileType::Tree;
-            } else {
-                tiles[at(i, j)].type = TileType::Grass;
-            }
+            tile = &ctx->map.tiles[at(i, j)];
+            tile->type = ctx->blueprint.tiles[at(i, j)];
+            tile->variant = random(0, tiles::data[tile->type].size() - 1);
         }
     }
 }
 
-static TileType typeAt(Context *ctx, int x, int y)
+static Tile *tileAt(Context *ctx, int x, int y)
 {
     if (isOutBounds(x, y)) {
-        return TileType::Blank;
+        return &ctx->map.blankTile;
+    } else {
+        return &ctx->map.tiles[at(x, y)];
     }
+}
 
-    return ctx->map.tiles[at(x, y)].type;
+static TileData *tileDataAt(Context *ctx, int x, int y)
+{
+    Tile *tile;
+    if (isOutBounds(x, y)) {
+        tile = &ctx->map.blankTile;
+    } else {
+        tile = tileAt(ctx, x, y);
+    }
+    return &tiles::data[tile->type][tile->variant];
 }
 
 } // namespace map
