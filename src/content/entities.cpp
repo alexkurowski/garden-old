@@ -16,9 +16,33 @@ static Entity *create(Context *ctx)
     return e;
 }
 
+static bool has(Context *ctx, EntityId id, ComponentMask components)
+{
+    return (ctx->entityPool.pool[id].components & components) == components;
+}
+
+static bool has(Context *ctx, Entity *e, ComponentMask components)
+{
+    return (e->components & components) == components;
+}
+
 static Entity *get(Context *ctx, EntityId id)
 {
     return &ctx->entityPool.pool[id];
+}
+
+static Entity *at(Context *ctx, int x, int y)
+{
+    Position *pos;
+    for (Entity &e : ctx->entityPool.pool) {
+        if (has(ctx, &e, PositionComponent)) {
+            pos = component::position(ctx, &e);
+            if (pos->x == x && pos->y == y) {
+                return &e;
+            }
+        }
+    }
+    return nullptr;
 }
 
 static void destroy(Context *ctx, EntityId id)
@@ -40,16 +64,6 @@ static void add(Context *ctx, EntityId id, ComponentMask components)
 static void add(Context *ctx, Entity *e, ComponentMask components)
 {
     e->components |= components;
-}
-
-static bool has(Context *ctx, EntityId id, ComponentMask components)
-{
-    return (ctx->entityPool.pool[id].components & components) == components;
-}
-
-static bool has(Context *ctx, Entity *e, ComponentMask components)
-{
-    return (e->components & components) == components;
 }
 
 static void remove(Context *ctx, EntityId id, ComponentMask components)

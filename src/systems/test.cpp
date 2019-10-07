@@ -50,6 +50,13 @@ static void playerInput(Context *ctx, Input &input)
         }
 
         if (dx != 0 || dy != 0) {
+            TileData *tileData = map::tileDataAt(ctx, pos->x + dx, pos->y + dy);
+            Entity *anotherEntity = entity::at(ctx, pos->x + dx, pos->y + dy);
+            bool canWalk = tileData->canWalk && !anotherEntity;
+            if (!canWalk) {
+                return;
+            }
+
             pos->x += dx;
             pos->y += dy;
 
